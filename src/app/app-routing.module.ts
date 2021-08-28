@@ -4,13 +4,23 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { NopagefoundComponent } from './pages/nopagefound/nopagefound.component';
+import { PagesComponent } from './pages/pages.component';
 
 
 const routes: Routes = [
-  { path: 'dashboard', component: DashboardComponent },
+  { 
+    path: '', component: PagesComponent,
+    children: [
+        // Rutas protegidas/rutas hijas 
+        { path: 'dashboard', component: DashboardComponent },
+        { path: '', redirectTo:'/dashboard', pathMatch:'full' }, // path vacio, redirecciona a dashboard
+    ]
+  },
+ 
+  // Rutas publicas
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: '', redirectTo:'/dashboard', pathMatch:'full' }, // path vacio, redirecciona a dashboard
+
   { path: '**', component: NopagefoundComponent } // Si no es ninguna de las anteriores redireccionar a 404 
 ];
 
