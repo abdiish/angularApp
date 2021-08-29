@@ -13,8 +13,8 @@ const routes: Routes = [
 
   // path: '/dashboard' PagesRouting
   // path: '/auth' AuthRouting
-
-   { path: '**', component: NopagefoundComponent } // Si no es ninguna de las anteriores redireccionar a 404 
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full'}, // path de rutas por defecto
+  { path: '**', component: NopagefoundComponent } // Si no es ninguna de las anteriores redireccionar a 404 
 ];
 
 @NgModule({
