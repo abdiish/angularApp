@@ -8,7 +8,7 @@
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Sistema de Control Escolar</p>
 
-                <form action="../../index3.html" method="post">
+                <form method="post" (ngSubmit)="login()">
                     <div class="input-group mb-3">
                         <input type="email" class="form-control" placeholder="Correo electrónico">
                         <div class="input-group-append">
@@ -55,7 +55,7 @@
                 </p>
                 <p class="mb-0">
                     ¿No tienes una cuenta?
-                    <a href="register.html" class="text-center">Registrarte</a>
+                    <a  routerLink="/register" class="text-center">Registrarte</a>
                 </p>
             </div>
             <!-- /.login-card-body -->
