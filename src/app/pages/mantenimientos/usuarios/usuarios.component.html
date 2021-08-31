@@ -1,0 +1,89 @@
+<!-------Search students ------->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="col-md-8 offset-md-2">
+                            <form action="simple-results.html">
+                                <div class="input-group">
+                                    <input type="search" class="form-control form-control-lg" placeholder="Buscar usuario...">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-lg btn-default">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+</div>
+<!------- Table students ------->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Usuarios</h3>
+                    </div>
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                  <th style="width: 10px;">Perfil</th>
+                                  <th>Nombre completo</th>
+                                  <th>Correo electrónico</th>
+                                  <th>Role</th>
+                                  <th>Autenticación</th>
+                                  <th style="width: 10px;">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                  <td>
+                                    <img src="./assets/img/user1-128x128.jpg" 
+                                         alt="user-avatar" 
+                                         class="img-circle img-fluid"
+                                         style="cursor: pointer;"
+                                         (click)="abrirModal()">
+                                  </td>
+                                  <td>Alan Cortés Ramos</td>
+                                  <td>admin@gmail.com</td>
+                                  <td>
+                                    <select class="form-control" style="width: 150px;">
+                                        <option>Administrador</option>
+                                        <option>Usuario</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                    <span class="badge badge-success">Email</span>
+                                  </td>
+                                  <td class="text-right py-0 align-middle">
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="#" class="btn btn-danger"><i class="fas fa-eye-slash"></i></a>
+                                    </div>
+                                  </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer clearfix">
+                        <ul class="pagination pagination-sm m-0 float-right">
+                          <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                          <li class="page-item"><a class="page-link" href="#">1</a></li>
+                          <li class="page-item"><a class="page-link" href="#">2</a></li>
+                          <li class="page-item"><a class="page-link" href="#">3</a></li>
+                          <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
