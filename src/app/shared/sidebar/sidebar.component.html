@@ -38,7 +38,7 @@
                with font-awesome or any other icon font library -->
                 <li class="nav-item menu-open" *ngFor="let item of menuItems">
                     <a href="#" class="nav-link active">
-                        <i class="nav-icon fas fa-desktop"></i>
+                        <i [class]="item.icono"></i>
                         <p>
                             {{ item.titulo }}
                             <i class="right fas fa-angle-left"></i>
