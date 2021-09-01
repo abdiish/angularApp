@@ -11,6 +11,8 @@ import { AsistenciaComponent } from './asistencia/asistencia.component';
 import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component';
 import { AlumnosComponent } from './mantenimientos/alumnos/alumnos.component';
 import { ProfesoresComponent } from './mantenimientos/profesores/profesores.component';
+import { AlumnoComponent } from './mantenimientos/alumnos/alumno/alumno.component';
+import { ProfesorComponent } from './mantenimientos/profesores/profesor/profesor.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { ProfesoresComponent } from './mantenimientos/profesores/profesores.comp
     AsistenciaComponent,
     UsuariosComponent,
     AlumnosComponent,
-    ProfesoresComponent
+    ProfesoresComponent,
+    AlumnoComponent,
+    ProfesorComponent
   ],
   exports: [
     DashboardComponent,
