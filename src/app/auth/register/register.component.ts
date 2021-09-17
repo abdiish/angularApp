@@ -1,22 +1,94 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UsuarioService } from '../../services/usuario.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styles: [
-  ]
+  styles: []
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent  {
 
-  constructor(private router: Router) { }
+  public formSubmitted = false;
 
-  ngOnInit(): void {
+  public registerForm = this.fb.group({
+    nombre: ['Alan Cortés', Validators.required],
+    email: ['admin@gmail.com', [Validators.required, Validators.email] ],
+    password: ['12345678', Validators.required],
+    password2: ['12345678', Validators.required],
+    terminos: [false, Validators.required]
+  }, {
+    validators: this.passwordsIguales('password', 'password2')
+  });
+
+  constructor( private fb: FormBuilder, 
+               private router: Router, 
+               private usuarioService: UsuarioService,
+               private toastr: ToastrService ) { }
+
+  crearUsuario() {
+
+    this.formSubmitted = true;
+
+    console.log(this.registerForm.value);
+
+    if (this.registerForm.invalid) {
+      return;
+    }
+
+    // Realizar el posteo
+    this.usuarioService.crearUsuario(this.registerForm.value)
+      .subscribe(resp => {
+        // Navega al dashboard
+        this.router.navigateByUrl('/');
+      }, (err) => {
+        // Lanza error, backend
+        this.toastr.error(err.error.msg, 'Error al crear usuario', { timeOut: 3000 });
+      });
   }
 
-  login() {
-    this.router.navigateByUrl('/');
+  campoNoValido(campo: string): boolean {
+
+    if (this.registerForm.get(campo)?.invalid && this.formSubmitted) {
+      return true
+    } else {
+      return false;
+    }
   }
 
+  aceptaTerminos() {
+
+    return !this.registerForm.get('terminos')?.value && this.formSubmitted;
+  }
+
+  contrasenasNoValidas() {
+
+    const pass1 = this.registerForm.get('password')?.value;
+    const pass2 = this.registerForm.get('password2')?.value;
+
+    if ((pass1 !== pass2) && this.formSubmitted) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
+  passwordsIguales(pass1Name: string, pass2Name: string) {
+
+    return (formGroup: FormGroup) => {
+
+      const pass1Control = formGroup.get(pass1Name);
+      const pass2Control = formGroup.get(pass2Name);
+
+      if (pass1Control?.value === pass2Control?.value) {
+        pass2Control?.setErrors(null);
+      } else {
+        pass2Control?.setErrors({ noEsIgual: true });
+      }
+    }
+  }
 
 }
