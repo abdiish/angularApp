@@ -13,6 +13,7 @@ import { AlumnosComponent } from './mantenimientos/alumnos/alumnos.component';
 import { ProfesoresComponent } from './mantenimientos/profesores/profesores.component';
 import { AlumnoComponent } from './mantenimientos/alumnos/alumno/alumno.component';
 import { ProfesorComponent } from './mantenimientos/profesores/profesor/profesor.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -31,9 +32,11 @@ import { ProfesorComponent } from './mantenimientos/profesores/profesor/profesor
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     SharedModule,
     RouterModule,
-    ComponentsModule
+    ComponentsModule,
   ]
 })
 export class PagesModule { }
