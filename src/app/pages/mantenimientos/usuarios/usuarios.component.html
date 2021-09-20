@@ -59,7 +59,7 @@
                                          alt="user-avatar" 
                                          class="img-circle img-fluid"
                                          style="cursor: pointer;"
-                                         (click)="abrirModal()">
+                                         (click)="abrirModal(usuario)">
                                   </td>
                                   <td>{{ usuario.nombre }}</td>
                                   <td>{{ usuario.email }}</td>
@@ -105,9 +105,9 @@
                     </div>
                     <div class="card-footer clearfix">
                         <div class="text-center">
-                            <div class="btn-group" >
-                                <button type="button" class="btn btn-default" (click)="cambiarPagina(-7)" ><i class="fas fa-arrow-alt-circle-left"></i> Anterior</button>
-                                <button type="button" class="btn btn-default" (click)="cambiarPagina(7)">Siguiente <i class="fas fa-arrow-alt-circle-right"></i></button>
+                            <div class="btn-group" *ngIf="txtTermino.value.length === 0">
+                                <button class="btn btn-default" (click)="cambiarPagina(-7)" ><i class="fas fa-arrow-alt-circle-left"></i> Anterior</button>
+                                <button class="btn btn-default" (click)="cambiarPagina(7)">Siguiente <i class="fas fa-arrow-alt-circle-right"></i></button>
                             </div>
                         </div>
                     </div>
@@ -116,3 +116,4 @@
             </div>
         </div>
 </section>
+

@@ -1,12 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
-
-#google-btn {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    text-align: center;
+.oculto{
+    display: none;
 }
-
 
 #fondo-modal-imagen{
     background-color: rgba(0, 0, 0, 0.4);
@@ -16,10 +10,6 @@
     top: 0px;
     width: 100%;
     z-index: 1050 !important;
-}
-
-.oculto{
-    display: none;
 }
 
 .modal-img{

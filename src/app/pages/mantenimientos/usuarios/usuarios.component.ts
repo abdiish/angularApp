@@ -1,32 +1,52 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Usuario } from '../../../models/usuario.model';
+
+import Swal from 'sweetalert2';
+
 import { UsuarioService } from '../../../services/usuario.service';
 import { BusquedasService } from '../../../services/busquedas.service';
-import Swal from 'sweetalert2';
+import { ModalImagenService } from '../../../services/modal-imagen.service';
+import { delay } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-usuarios',
   templateUrl: './usuarios.component.html',
-  styles: [
-  ]
+  styles: []
 })
-export class UsuariosComponent implements OnInit {
+export class UsuariosComponent implements OnInit, OnDestroy {
   
   public totalUsuarios: number = 0;
   public usuarios: Usuario[] = [];
   public usuariosTemp: Usuario[] = [];
 
+  public imgSubs: Subscription;
+  
   public desde: number = 0;
   public cargando: boolean = true;
+  
   public msg: boolean;
 
   constructor(private usuarioService: UsuarioService,
-              private busquedasServices: BusquedasService) { }
+              private busquedasServices: BusquedasService,
+              public modalImagenService: ModalImagenService) { }
+
+  ngOnDestroy(): void {
+    this.imgSubs.unsubscribe();//Evitar fugas de memoria
+  }
 
   ngOnInit(): void {
 
     this.cargarUsuarios();
-    
+    // Modal imagen, Mantenimientos
+    this.imgSubs = this.modalImagenService.nuevaImagen
+      .pipe(
+        delay(300)
+      )
+      .subscribe( img => { 
+        this.cargarUsuarios(); 
+    });
+
   }
 
   cargarUsuarios() {
@@ -41,6 +61,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   cambiarPagina(valor: number) {
+    
     this.desde += valor;
 
     if (this.desde < 0) {
@@ -52,7 +73,9 @@ export class UsuariosComponent implements OnInit {
   }
 
   buscar( termino: string ) {
+    
     this.msg = false;
+    
     if (termino.length === 0) {
         return this.usuarios = this.usuariosTemp;
     }
@@ -84,12 +107,9 @@ export class UsuariosComponent implements OnInit {
       confirmButtonText: 'Sí, eliminar'
     }).then((result) => {
       if (result.value) { // Sí es true entonces
-        
        this.usuarioService.eliminarUsuario(usuario)
           .subscribe( resp => {
-
             this.cargarUsuarios();
-
             Swal.fire(
               'Se eliminó la cuenta',
               `${ usuario.nombre }`,
@@ -125,7 +145,8 @@ export class UsuariosComponent implements OnInit {
     
   }
 
-  abrirModal() {
-    
+  abrirModal(usuario: Usuario) {
+  
+    this.modalImagenService.abrirModal('usuarios', usuario.uid, usuario.img);
   }
 }
