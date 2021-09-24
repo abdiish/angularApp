@@ -20,15 +20,15 @@ const routes: Routes = [
         children: [
             // Rutas protegidas/rutas hijas 
             { path: '', component: DashboardComponent, data: { titulo: 'Dashboard'} },
-            { path: 'asistencia', component: AsistenciaComponent, data: { titulo: 'Asistencia de Alumnos'} },
+            { path: 'asistencia', component: AsistenciaComponent, data: { titulo: 'Asistencia'} },
 
             //Mantenimientos
-            { path: 'usuarios', component: UsuariosComponent, data: { titulo: 'Usuarios de la aplicación'} },
+            { path: 'usuarios', component: UsuariosComponent, data: { titulo: 'Usuarios'} },
             { path: 'alumnos', component: AlumnosComponent, data: { titulo: 'Alumnos'} },
             { path: 'profesores', component: ProfesoresComponent, data: { titulo: 'Profesores'} },
             { path: 'modal-imagen', component: ProfesoresComponent, data: { titulo: 'Modal'} },
-            { path: 'alumno/:id', component: AlumnoComponent, data: { titulo: 'Mantenimiento Alumno'} },
-            { path: 'profesor', component: ProfesorComponent, data: { titulo: 'Mantenimiento Profesor'} },
+            { path: 'alumno/:id', component: AlumnoComponent, data: { titulo: 'Actualizar Alumno'} },
+            { path: 'profesor/:id', component: ProfesorComponent, data: { titulo: 'Actualizar Profesor'} },
         ]
       },
 ];
