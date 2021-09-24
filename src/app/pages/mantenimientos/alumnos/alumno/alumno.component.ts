@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AlumnosService } from '../../../../services/alumno.service';
@@ -14,6 +14,8 @@ import { Alumno } from '../../../../models/alumno.model';
   ]
 })
 export class AlumnoComponent implements OnInit{
+
+  @ViewChild('formAlumno') formAlumno!: NgForm;
 
   public formSubmitted = false;
   public grupos: string[] = [];
@@ -90,6 +92,13 @@ export class AlumnoComponent implements OnInit{
       // Crear nuevo alumno
       this.alumnoService.crearAlumno(this.alumnoForm.value)
         .subscribe((resp: any) => {
+          this.formAlumno.resetForm(
+            {
+              grupo : "",
+              grado : "",
+              genero: "Femenino"
+            }
+          );
           Swal.fire('Alumno creado', `${nombre}, registrado correctamente`, 'success');
         }, (err) => {
           Swal.fire('Ocurrió un error', err.error.msg, 'error');
