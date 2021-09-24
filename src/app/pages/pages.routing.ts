@@ -27,7 +27,7 @@ const routes: Routes = [
             { path: 'alumnos', component: AlumnosComponent, data: { titulo: 'Alumnos'} },
             { path: 'profesores', component: ProfesoresComponent, data: { titulo: 'Profesores'} },
             { path: 'modal-imagen', component: ProfesoresComponent, data: { titulo: 'Modal'} },
-            { path: 'alumno', component: AlumnoComponent, data: { titulo: 'Mantenimiento Alumno'} },
+            { path: 'alumno/:id', component: AlumnoComponent, data: { titulo: 'Mantenimiento Alumno'} },
             { path: 'profesor', component: ProfesorComponent, data: { titulo: 'Mantenimiento Profesor'} },
         ]
       },

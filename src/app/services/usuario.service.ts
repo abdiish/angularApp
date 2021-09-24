@@ -117,7 +117,6 @@ export class UsuarioService {
       .pipe(
         tap((resp: any) => {
           localStorage.setItem('token', resp.token);
-          //this.guardarLocalStorage(resp.token, resp.menu);
         })
       );
 

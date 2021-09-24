@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.prod';
 import { map } from 'rxjs/operators';
 import { Usuario } from '../models/usuario.model';
+import { Alumno } from '../models/alumno.model';
 
 const base_url = environment.base_url;
 
@@ -30,9 +31,20 @@ export class BusquedasService {
       user => new Usuario(user.nombre, user.email, '', user.img, user.google, user.status, user.role, user.uid)
     );
   }
+  
+  private transformarAlumnos( resultados: any[]): Alumno[] {
+    return resultados.map(
+      alumno => new Alumno(alumno.nombre, alumno.fechaNacimiento, alumno.curp, alumno.grupo, alumno.grado, alumno.genero, alumno.status, alumno.img)
+    );
+  }
+  
+  
+  // private transformarProfesores( resultados: any[]): Profesor[] {
+  //   return resultados;
+  // }
 
   buscar(
-    tipo: 'usuarios'|'profesores'|'alumnos',
+    tipo: 'usuarios'|'alumnos'|'profesores',
     termino: string
   ) {
 
@@ -43,11 +55,11 @@ export class BusquedasService {
 
             switch ( tipo ) {
               case 'usuarios':
-                return this.transformarUsuarios( resp.resultados )
-              case 'profesores':
-                return 'profesores'
+                return this.transformarUsuarios(resp.resultados)
               case 'alumnos':
-                return 'alumnos'
+                return this.transformarAlumnos(resp.resultados)
+              case 'alumnos':
+                return 'profesores'
               default:
                 return[];
             }

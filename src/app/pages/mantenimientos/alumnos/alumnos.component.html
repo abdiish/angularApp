@@ -8,9 +8,13 @@
                         <div class="col-md-8 offset-md-2">
                             <form action="simple-results.html">
                                 <div class="input-group">
-                                    <input type="search" class="form-control form-control-lg" placeholder="Buscar alumno...">
+                                    <input type="search" class="form-control form-control-lg" 
+                                           placeholder="Buscar alumno..."
+                                           #txtTermino>
                                     <div class="input-group-append">
-                                        <button type="submit" class="btn btn-lg btn-default">
+                                        <button type="submit" 
+                                                class="btn btn-lg btn-default"
+                                                (click)="buscar(txtTermino.value)">
                                             <i class="fa fa-search"></i>
                                         </button>
                                     </div>
@@ -26,19 +30,30 @@
 <!------- Table students ------->
 <section class="content">
     <div class="container-fluid">
-        <div class="row">
+        <div class="row" *ngIf="!cargando">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Alumnos</h3>
+                        <a class="btn btn-app bg-success">
+                            <span class="badge bg-purple">{{ totalAlumnos }}</span>
+                            <i class="fas fa-users-cog"></i> Alumnos
+                        </a>
                         <div class="card-tools">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                                <button routerLink="/dashboard/alumno" type="button" class="btn btn-info btn-block"><i class="fas fa-user-graduate"></i> Nuevo alumno</button>
+                            <div class="input-group input-group-sm" style="width: 150px; margin-top: 15px;">
+                                <button routerLink="/dashboard/alumno/nuevo" type="button" class="btn btn-info btn-block"><i class="fas fa-user-plus"></i> Nuevo alumno</button>
                             </div>
                         </div>
                     </div>
                     <div class="card-body table-responsive p-0">
-                        <table class="table table-hover text-nowrap">
+                        <!-- Sweet alert message -->
+                        <div class="content">
+                            <div class="col text-center" *ngIf="imgEmpty">
+                                <img src="./assets/img/empty-box.png" alt="empty-table" style="height: 100px; width: 100px;">
+                                <h5><b>Crea una lista de alumnos</b></h5>
+                                <p style="font-size: small;">Ve al boton "Nuevo alumno" para comenzar a registrar</p>
+                            </div>
+                        </div>
+                        <table class="table table-hover text-nowrap" *ngIf="!imgEmpty">
                             <thead>
                                 <tr>
                                   <th style="width: 10px;">Perfil</th>
@@ -52,71 +67,43 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr *ngFor="let alumno of alumnos">
                                   <td>
-                                    <img src="./assets/img/user1-128x128.jpg" alt="user-avatar" class="img-circle img-fluid">
+                                    <img [src]="alumno.imagenUrl" 
+                                         alt="student-avatar" 
+                                         class="img-circle img-fluid"
+                                         style="cursor: pointer;"
+                                         (click)="abrirModal(alumno)">
                                   </td>
-                                  <td>Alan Cortés Ramos</td>
-                                  <td>Masculino</td>
-                                  <td>14/01/1989</td>
-                                  <td>CORA890114HTLRML02</td>
-                                  <td>1</td>
-                                  <td>A</td>
+                                  <td>{{ alumno.nombre }}</td>
+                                  <td>{{ alumno.genero }}</td>
+                                  <td>{{ alumno.fechaNacimiento }}</td>
+                                  <td>{{ alumno.curp }}</td>
+                                  <td>{{ alumno.grado }}</td>
+                                  <td>{{ alumno.grupo }}</td>
                                   <td class="text-right py-0 align-middle">
                                     <div class="btn-group btn-group-sm">
-                                        <a routerLink="/dashboard/alumno" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                                        <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                        <a [routerLink]="['/dashboard','alumno', alumno._id]" 
+                                           class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                           
+                                        <a (click)="borrarAlumno(alumno)" 
+                                           class="btn btn-danger"><i class="fas fa-trash"></i></a>
                                     </div>
                                   </td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <img src="./assets/img/user1-128x128.jpg" alt="user-avatar" class="img-circle img-fluid">
-                                    </td>
-                                    <td>Alan Cortés Ramos</td>
-                                    <td>Masculino</td>
-                                    <td>14/01/1989</td>
-                                    <td>CORA890114HTLRML02</td>
-                                    <td>1</td>
-                                    <td>A</td>
-                                    <td class="text-right py-0 align-middle">
-                                      <div class="btn-group btn-group-sm">
-                                          <a href="#" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                                          <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td>
-                                        <img src="./assets/img/user1-128x128.jpg" alt="user-avatar" class="img-circle img-fluid">
-                                    </td>
-                                    <td>Alan Cortés Ramos</td>
-                                    <td>Masculino</td>
-                                    <td>14/01/1989</td>
-                                    <td>CORA890114HTLRML02</td>
-                                    <td>1</td>
-                                    <td>A</td>
-                                    <td class="text-right py-0 align-middle">
-                                      <div class="btn-group btn-group-sm">
-                                          <a href="#" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                                          <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                                      </div>
-                                    </td>
-                                  </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="card-footer clearfix">
-                        <ul class="pagination pagination-sm m-0 float-right">
-                          <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                          <li class="page-item"><a class="page-link" href="#">1</a></li>
-                          <li class="page-item"><a class="page-link" href="#">2</a></li>
-                          <li class="page-item"><a class="page-link" href="#">3</a></li>
-                          <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                        </ul>
+                        <div class="text-center">
+                            <div class="btn-group" *ngIf="txtTermino.value.length === 0">
+                                <button class="btn btn-default" (click)="cambiarPagina(-7)"><i class="fas fa-arrow-alt-circle-left"></i> Anterior</button>
+                                <button class="btn btn-default" (click)="cambiarPagina(7)">Siguiente <i class="fas fa-arrow-alt-circle-right"></i></button>
+                            </div>
+                        </div>
                     </div>
+                    <div class="overlay" *ngIf="cargando"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div></div>
                 </div>
             </div>
         </div>
-    </div>
 </section>

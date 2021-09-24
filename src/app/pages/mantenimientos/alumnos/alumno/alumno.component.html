@@ -2,96 +2,67 @@
 <section class="content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-3">
-
-        <!-- Profile Image -->
-        <div class="card card-primary">
-          <div class="card-body box-profile">
-            <div class="text-center">
-              <img class="profile-user-img img-fluid img-circle" src="./assets/img/user4-128x128.jpg"
-                alt="User profile picture">
-            </div>
-            <h3 class="profile-username text-center">Nombre del alumno</h3>
-            <p class="text-muted text-center">Dato 1</p>
-            <ul class="list-group list-group-unbordered mb-3">
-              <li class="list-group-item">
-                <b>Dato 2</b>
-                <a class="float-right">
-                  <span class="float-right badge bg-primary">000</span>
-                </a>
-              </li>
-              <li class="list-group-item">
-                <b>Dato 3</b>
-                <a class="float-right">
-                  <span class="float-right badge bg-success">000</span>
-                </a>
-              </li>
-              <li class="list-group-item">
-                <b>Dato 4</b>
-                <a class="float-right">
-                  <span class="float-right badge bg-info">000</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-          <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
-      </div>
-      <!-- col -->
-      <div class="col-md-9">
+      <div class="col-md-12">
         <div class="card">
           <div class="card-header p-2">
             <ul class="nav nav-pills">
               <li class="nav-item"><a class="nav-link active" href="#data" data-toggle="tab">Datos Personales</a></li>
+              <li class="nav-item"><a class="nav-link" href="#parents" data-toggle="tab">Padre o Tutor</a></li>
             </ul>
           </div>
           <div class="card-body">
             <div class="tab-content">
               <div class="active tab-pane" id="data">
-                <form>
+                <form autocomplete="off" 
+                      [formGroup]="alumnoForm" 
+                      (ngSubmit)="crearAlumno()">
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>Nombre</label>
-                        <input type="text" class="form-control" style="width: 100%;" id="inputName"
+                        <input type="text" formControlName="nombre" class="form-control" style="width: 100%;"
                           placeholder="Nombre completo">
+                        <span class="form-text text-danger" 
+                              *ngIf="campoNoValido('nombre')">El campo es obligatorio</span>  
                       </div>
                       <div class="form-group">
                         <label>CURP</label>
-                        <input type="text" class="form-control" style="width: 100%;" id="inputName" placeholder="CURP">
+                        <input type="text" formControlName="curp" class="form-control" style="width: 100%;" 
+                          placeholder="CURP">
+                          <span class="form-text text-danger" 
+                                *ngIf="campoNoValido('curp')">El campo es obligatorio</span> 
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>Fecha de Nacimiento</label>
-                        <input type="date" class="form-control" style="width: 100%;" id="inputName"
+                        <input type="date" formControlName="fechaNacimiento" class="form-control" style="width: 100%;" 
                           placeholder="Fecha de Nacimiento">
+                        <span class="form-text text-danger" 
+                              *ngIf="campoNoValido('fechaNacimiento')">El campo es obligatorio</span> 
                       </div>
                       <div class="form-group">
                         <label>Grupo</label>
-                        <select class="form-control select2" style="width: 100%;">
-                          <option>A</option>
-                          <option>B</option>
-                          <option>C</option>
-                          <option>D</option>
-                          <option>E</option>
-                          <option>F</option>
+                        <select class="form-control" formControlName="grupo" style="width: 100%;">
+                          <option value="">-- Seleccione una opción --</option>
+                          <option *ngFor="let grupo of grupos"
+                                  [value]="grupo">{{ grupo }}</option>
                         </select>
+                        <span class="form-text text-danger" 
+                              *ngIf="campoNoValido('grupo')">El campo es obligatorio</span> 
                       </div>
                      
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>Grado</label>
-                        <select class="form-control select2" style="width: 100%;">
-                          <option>Primero</option>
-                          <option>Segundo</option>
-                          <option>Tercero</option>
-                          <option>Cuarto</option>
-                          <option>Quinto</option>
-                          <option>Sexto</option>
+                        <select class="form-control" formControlName="grado" style="width: 100%;">
+                          <option value="">-- Seleccione una opción --</option>
+                          <option *ngFor="let grado of grados"
+                                  [value]="grado">{{ grado }}</option>
                         </select>
+                        <span class="form-text text-danger" 
+                              *ngIf="campoNoValido('grado')">El campo es obligatorio</span> 
                       </div>
                     </div>
                     <div class="col-md-6">
@@ -99,15 +70,21 @@
                         <label>Genero</label>
                         <div class="form-group clearfix">
                           <div class="icheck-primary d-inline">
-                            <input type="radio" id="radioPrimary1" name="r1" checked="">
-                            <label for="radioPrimary1" style="margin-right: 10px;">
+                            <input type="radio" 
+                                   value="Femenino"
+                                   id="radioMasculino" 
+                                   formControlName="genero">
+                            <label for="radioMasculino" style="margin-right: 10px;">
                               Femenino
                             </label>
                           </div>
 
                           <div class="icheck-primary d-inline">
-                            <input type="radio" id="radioPrimary2" name="r1">
-                            <label for="radioPrimary2">
+                            <input type="radio"
+                                   value="Masculino" 
+                                   id="radioFemenino" 
+                                   formControlName="genero">
+                            <label for="radioFemenino">
                               Masculino
                             </label>
                           </div>
@@ -118,106 +95,23 @@
                     </div>
                   </div>
                   <!-- timeline time label -->
-                  <div>
-                    <hr>
-                  </div>
-                  <!-- Accordion -->
-                  <div id="accordion">
-                    <div class="card card-primary">
-                      <div class="card-header">
-                        <h4 class="card-title w-100">
-                          <a class="d-block w-100" data-toggle="collapse" href="#collapseOne">
-                            <i class="fas fa-user-friends"></i>
-                            Padre o Tutor legal
-                          </a>
-                        </h4>
-                      </div>
-                      <div id="collapseOne" class="collapse show" data-parent="#accordion">
-                        <div class="card-body">
-                          <!--Content here-->
-                          <div class="row">
-                            <div class="col-md-6">
-                              <div class="form-group">
-                                <label>Calle</label>
-                                <input type="text" class="form-control" style="width: 100%;" id="inputName"
-                                  placeholder="Nombre de la calle">
-                              </div>
-                              <div class="form-group">
-                                <label>Número</label>
-                                <input type="text" class="form-control" style="width: 100%;" id="inputName" placeholder="Número interior o exterior">
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <div class="form-group">
-                                <label>Colonia</label>
-                                <input type="text" class="form-control" style="width: 100%;" id="inputName"
-                                  placeholder="Nombre de la colonia">
-                              </div>
-                              <div class="form-group">
-                                <label>Código Postal</label>
-                                <input type="text" class="form-control" style="width: 100%;" id="inputName"
-                                  placeholder="Código postal">
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <div class="form-group">
-                                <label>Estado</label>
-                                <select class="form-control select2" style="width: 100%;">
-                                  <option selected="selected">Alabama</option>
-                                  <option>Alaska</option>
-                                  <option>California</option>
-                                  <option>Delaware</option>
-                                  <option>Tennessee</option>
-                                  <option>Texas</option>
-                                  <option>Washington</option>
-                                </select>
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <div class="form-group">
-                                <label>Municipio</label>
-                                <select class="form-control select2" style="width: 100%;">
-                                  <option selected="selected">Alabama</option>
-                                  <option>Alaska</option>
-                                  <option>California</option>
-                                  <option>Delaware</option>
-                                  <option>Tennessee</option>
-                                  <option>Texas</option>
-                                  <option>Washington</option>
-                                </select>
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <div class="form-group">
-                                <label>Teléfono</label>
-                                <input type="tel" class="form-control" style="width: 100%;" id="inputName"
-                                  placeholder="Teléfono móvil o de casa">
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <div class="form-group">
-                                <label>Correo electrónico</label>
-                                <input type="email" class="form-control" style="width: 100%;" id="inputName"
-                                placeholder="Correo electrónico">
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- End Accordion-->
-                 
                   <div class="row">
                     <div class="col-3">
                       <div class="input-group input-group-sm" style="width: 160px;">
-                        <button type="button" class="btn btn-info btn-block"><i class="fas fa-save"></i> Guardar</button>
+                        <button type="submit" 
+                                class="btn btn-block btn-info btn-flat"
+                                [disabled]="alumnoForm.invalid">       
+                          <i class="fas fa-save"></i> Guardar</button>
                     </div>
                     </div>
                   </div>
                 </form>
               </div>
             </div>
+          </div>
+          <!-- end card body-->
+          <div class="card-footer">
+            <!-- Content here -->
           </div>
         </div>
       </div>
