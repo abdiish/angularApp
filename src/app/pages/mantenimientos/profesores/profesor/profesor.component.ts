@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Profesor } from '../../../../models/profesor.model';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProfesorService } from '../../../../services/profesor.service';
 import { ValidatorService } from '../../../../shared/validator/validator.service';
@@ -15,6 +15,7 @@ import Swal from 'sweetalert2';
 })
 export class ProfesorComponent implements OnInit {
 
+  @ViewChild('formAlumno') formAlumno!: NgForm;
 
   public profesorSeleccionado: Profesor;
 
@@ -79,6 +80,7 @@ export class ProfesorComponent implements OnInit {
       // Crear nuevo profesor
       this.profesorService.crearProfesor(this.profesorForm.value)
         .subscribe((resp: any) => {
+          this.formAlumno.resetForm();
           Swal.fire('Profesor creado', `${nombre}, registrado correctamente`, 'success');
         }, (err) => {
           console.log(err)
