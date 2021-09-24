@@ -13,7 +13,8 @@
           <div class="card-body">
             <div class="tab-content">
               <div class="active tab-pane" id="data">
-                <form autocomplete="off" 
+                <form autocomplete="off"
+                      #formAlumno="ngForm" 
                       [formGroup]="alumnoForm" 
                       (ngSubmit)="crearAlumno()">
                   <div class="row">
