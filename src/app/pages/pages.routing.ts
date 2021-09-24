@@ -1,35 +1,15 @@
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from '../guards/auth.guard';
 import { NgModule } from '@angular/core';
 import { PagesComponent } from './pages.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { AsistenciaComponent } from './asistencia/asistencia.component';
-import { AuthGuard } from '../guards/auth.guard';
-
-//Mantenimientos
-import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component';
-import { AlumnosComponent } from './mantenimientos/alumnos/alumnos.component';
-import { ProfesoresComponent } from './mantenimientos/profesores/profesores.component';
-import { AlumnoComponent } from './mantenimientos/alumnos/alumno/alumno.component';
-import { ProfesorComponent } from './mantenimientos/profesores/profesor/profesor.component';
 
 const routes: Routes = [
 
     { 
         path: 'dashboard', component: PagesComponent,
         canActivate: [ AuthGuard ],
-        children: [
-            // Rutas protegidas/rutas hijas 
-            { path: '', component: DashboardComponent, data: { titulo: 'Dashboard'} },
-            { path: 'asistencia', component: AsistenciaComponent, data: { titulo: 'Asistencia'} },
-
-            //Mantenimientos
-            { path: 'usuarios', component: UsuariosComponent, data: { titulo: 'Usuarios'} },
-            { path: 'alumnos', component: AlumnosComponent, data: { titulo: 'Alumnos'} },
-            { path: 'profesores', component: ProfesoresComponent, data: { titulo: 'Profesores'} },
-            { path: 'modal-imagen', component: ProfesoresComponent, data: { titulo: 'Modal'} },
-            { path: 'alumno/:id', component: AlumnoComponent, data: { titulo: 'Actualizar Alumno'} },
-            { path: 'profesor/:id', component: ProfesorComponent, data: { titulo: 'Actualizar Profesor'} },
-        ]
+        canLoad: [ AuthGuard ],
+        loadChildren: () => import('./child-routes.module').then(m => m.ChildRoutesModule)
       },
 ];
 
