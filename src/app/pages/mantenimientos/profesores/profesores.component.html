@@ -8,9 +8,13 @@
                         <div class="col-md-8 offset-md-2">
                             <form action="simple-results.html">
                                 <div class="input-group">
-                                    <input type="search" class="form-control form-control-lg" placeholder="Buscar profesor...">
+                                    <input type="search" class="form-control form-control-lg" 
+                                           placeholder="Buscar profesor..."
+                                           #txtTermino>
                                     <div class="input-group-append">
-                                        <button type="submit" class="btn btn-lg btn-default">
+                                        <button type="submit" 
+                                                class="btn btn-lg btn-default"
+                                                (click)="buscar(txtTermino.value)">
                                             <i class="fa fa-search"></i>
                                         </button>
                                     </div>
@@ -23,22 +27,33 @@
         </div>    
     </div>
 </div>
-<!------- Table students ------->
+<!------- Table professors ------->
 <section class="content">
     <div class="container-fluid">
-        <div class="row">
+        <div class="row" *ngIf="!cargando">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Profesores</h3>
+                        <a class="btn btn-app bg-success">
+                            <span class="badge bg-purple">{{ totalProfesores }}</span>
+                            <i class="fas fa-users-cog"></i> Profesores
+                        </a>
                         <div class="card-tools">
-                            <div class="input-group input-group-sm" style="width: 152px;">
-                                <button routerLink="/dashboard/profesor" type="button" class="btn btn-info btn-block"><i class="fas fa-chalkboard-teacher"></i> Nuevo profesor</button>
+                            <div class="input-group input-group-sm" style="width: 152px; margin-top: 15px;">
+                                <button routerLink="/dashboard/profesor/nuevo" type="button" class="btn btn-info btn-block"><i class="fas fa-user-plus"></i> Nuevo profesor</button>
                             </div>
                         </div>
                     </div>
                     <div class="card-body table-responsive p-0">
-                        <table class="table table-hover text-nowrap">
+                        <!-- Sweet alert message -->
+                        <div class="content">
+                            <div class="col text-center" *ngIf="imgEmpty">
+                                <img src="./assets/img/empty-box.png" alt="empty-table" style="height: 100px; width: 100px;">
+                                <h5><b>Crea una lista de alumnos</b></h5>
+                                <p style="font-size: small;">Ve al boton "Nuevo alumno" para comenzar a registrar</p>
+                            </div>
+                        </div>
+                        <table class="table table-hover text-nowrap" *ngIf="!imgEmpty">
                             <thead>
                                 <tr>
                                   <th style="width: 10px;">Perfil</th>
@@ -51,14 +66,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr *ngFor="let profesor of profesores">
                                   <td>
-                                    <img src="./assets/img/user1-128x128.jpg" alt="user-avatar" class="img-circle img-fluid">
+                                    <img [src]="profesor.imagenUrl" 
+                                         alt="student-avatar" 
+                                         class="img-circle img-fluid"
+                                         style="cursor: pointer;"
+                                         (click)="abrirModal(profesor)">
                                   </td>
-                                  <td>Alan Cortés Ramos</td>
-                                  <td>01/01/2021</td>
-                                  <td>1234567890</td>
-                                  <td>admin@gmail.com</td>
+                                  <td>{{ profesor.nombre }}</td>
+                                  <td>{{ profesor.fechaIngreso }}</td>
+                                  <td>{{ profesor.telefono }}</td>
+                                  <td>{{ profesor.email }}</td>
                                   <td>
                                     <select class="form-control" style="width: 105px;">
                                         <option>Activo</option>
@@ -67,63 +86,23 @@
                                   </td>
                                   <td class="text-right py-0 align-middle">
                                     <div class="btn-group btn-group-sm">
-                                        <a routerLink="/dashboard/profesor" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                        <a [routerLink]="['/dashboard', 'profesor', profesor._id]" 
+                                           class="btn btn-primary"><i class="fas fa-edit"></i></a>
                                     </div>
                                   </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                      <img src="./assets/img/user1-128x128.jpg" alt="user-avatar" class="img-circle img-fluid">
-                                    </td>
-                                    <td>Alan Cortés Ramos</td>
-                                    <td>01/01/2021</td>
-                                    <td>1234567890</td>
-                                    <td>admin@gmail.com</td>
-                                    <td>
-                                        <select class="form-control" style="width: 105px;">
-                                            <option>Activo</option>
-                                            <option>Inactivo</option>
-                                        </select>
-                                    </td>
-                                    <td class="text-right py-0 align-middle">
-                                      <div class="btn-group btn-group-sm">
-                                          <a href="#" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                                      </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                      <img src="./assets/img/user1-128x128.jpg" alt="user-avatar" class="img-circle img-fluid">
-                                    </td>
-                                    <td>Alan Cortés Ramos</td>
-                                    <td>01/01/2021</td>
-                                    <td>1234567890</td>
-                                    <td>admin@gmail.com</td>
-                                    <td>
-                                        <select class="form-control" style="width: 105px;">
-                                            <option>Activo</option>
-                                            <option>Inactivo</option>
-                                        </select>
-                                    </td>
-                                    <td class="text-right py-0 align-middle">
-                                      <div class="btn-group btn-group-sm">
-                                          <a href="#" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                                      </div>
-                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="card-footer clearfix">
-                        <ul class="pagination pagination-sm m-0 float-right">
-                          <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                          <li class="page-item"><a class="page-link" href="#">1</a></li>
-                          <li class="page-item"><a class="page-link" href="#">2</a></li>
-                          <li class="page-item"><a class="page-link" href="#">3</a></li>
-                          <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                        </ul>
+                        <div class="text-center">
+                            <div class="btn-group" *ngIf="txtTermino.value.length === 0">
+                                <button class="btn btn-default" (click)="cambiarPagina(-7)"><i class="fas fa-arrow-alt-circle-left"></i> Anterior</button>
+                                <button class="btn btn-default" (click)="cambiarPagina(7)">Siguiente <i class="fas fa-arrow-alt-circle-right"></i></button>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    <div class="overlay" *ngIf="cargando"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div></div>
             </div>
         </div>
     </div>

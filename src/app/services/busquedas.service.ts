@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment.prod';
 import { map } from 'rxjs/operators';
 import { Usuario } from '../models/usuario.model';
 import { Alumno } from '../models/alumno.model';
+import { Profesor } from '../models/profesor.model';
 
 const base_url = environment.base_url;
 
@@ -39,9 +40,11 @@ export class BusquedasService {
   }
   
   
-  // private transformarProfesores( resultados: any[]): Profesor[] {
-  //   return resultados;
-  // }
+  private transformarProfesores( resultados: any[]): Profesor[] {
+    return resultados.map(
+      profesor => new Profesor(profesor.nombre, profesor.fechaIngreso, profesor.telefono, profesor.email, profesor.img, profesor.status)
+    );
+  }
 
   buscar(
     tipo: 'usuarios'|'alumnos'|'profesores',
@@ -58,8 +61,8 @@ export class BusquedasService {
                 return this.transformarUsuarios(resp.resultados)
               case 'alumnos':
                 return this.transformarAlumnos(resp.resultados)
-              case 'alumnos':
-                return 'profesores'
+              case 'profesores':
+                return this.transformarProfesores(resp.resultados)
               default:
                 return[];
             }
